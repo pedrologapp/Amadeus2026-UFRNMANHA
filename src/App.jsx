@@ -421,7 +421,7 @@ function App() {
             Museu de Minérios do IFRN
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90">
-            Passeio Pedagógico — 6º e 7º Anos
+            Passeio Pedagógico — 6º e 7º Anos Matutino
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -1062,6 +1062,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
