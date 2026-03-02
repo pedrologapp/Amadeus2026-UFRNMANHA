@@ -144,7 +144,7 @@ function App() {
         .select('*')
         .ilike('nome_completo', `%${searchTerm}%`)
         .in('serie', SERIES_DISPONIVEIS)
-        .in('turma', TURMAS_PERMITIDAS); // Filtra apenas turma A (matutino)
+        .eq('turma', 'A'); // Filtra apenas turma A (matutino)
 
       // Aplicar filtro de série se selecionado
       if (selectedSerie) {
@@ -1062,6 +1062,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
