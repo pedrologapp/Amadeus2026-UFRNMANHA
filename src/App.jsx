@@ -967,14 +967,14 @@ function App() {
                       <div className="text-center" translate="no">
                         <h4 className="text-lg font-bold text-orange-800 mb-1">Valor Total</h4>
                         <div className="text-sm text-gray-600 mb-1">
-                          1 aluno × R$ 80,00
+                          1 aluno × R$ 25,00
                         </div>
                         <div className="text-2xl font-bold text-orange-900">
                           R$ {valorTotal.toFixed(2).replace('.', ',')}
                         </div>
                         {formData.paymentMethod === 'credit' && formData.installments > 1 && (
                           <div className="text-sm text-orange-700 mt-1">
-                            {formData.installments}x de R$ {valorParcela.toFixed(2).replace('.', ',')}
+                            {formData.installments}x de R$ {30}
                           </div>
                         )}
                         {formData.paymentMethod === 'credit' && (
@@ -1064,6 +1064,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
