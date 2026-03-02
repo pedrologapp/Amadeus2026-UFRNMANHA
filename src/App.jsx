@@ -36,9 +36,9 @@ import {
 } from 'lucide-react';
 
 // Importando as imagens
-import interiorImage1 from './assets/happy1.jpg';
-import interiorImage2 from './assets/happy2.jpg';
-import jardimImage from './assets/happy3.jpg';
+import interiorImage1 from './assets/happy1.png';
+import interiorImage2 from './assets/happy2.png';
+import jardimImage from './assets/happy3.png';
 
 function App() {
   // ⚙️ CONFIGURAÇÃO
@@ -1062,6 +1062,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
