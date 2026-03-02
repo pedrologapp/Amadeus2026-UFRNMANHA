@@ -970,7 +970,7 @@ function App() {
                           1 aluno × R$ 25,00
                         </div>
                         <div className="text-2xl font-bold text-orange-900">
-                          R$ {valorTotal.toFixed(2).replace('.', ',')}
+                          R$ {30}
                         </div>
                         {formData.paymentMethod === 'credit' && formData.installments > 1 && (
                           <div className="text-sm text-orange-700 mt-1">
@@ -1064,6 +1064,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
