@@ -326,7 +326,7 @@ function App() {
           ticketQuantity: 1, 
           amount: valorTotal,
           timestamp: new Date().toISOString(),
-          event: 'Amadeus-museu-minerios-ifrn'
+          event: 'Amadeus-museu-minerios-ifrn-manha'
         })
       });
 
@@ -409,7 +409,7 @@ function App() {
             Museu de Minérios do IFRN
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90">
-            Passeio Pedagógico — 6º e 7º Anos
+            Passeio Pedagógico — Para o 6º e 7º Ano Matutino
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -1065,6 +1065,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
