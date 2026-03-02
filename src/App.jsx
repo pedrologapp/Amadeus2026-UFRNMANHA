@@ -214,7 +214,7 @@ function App() {
   };
 
   // ============================================
-  // CÁLCULO DE PREÇO - R$ 80,00 POR ALUNO
+  // CÁLCULO DE PREÇO - R$ 25,00 POR ALUNO
   // Até 3x no cartão com juros
   // ============================================
   const calculatePrice = () => {
@@ -611,7 +611,7 @@ function App() {
 
           <Card className="mb-8">
             <CardHeader className="text-center">
-              <CardTitle className="text-3xl text-primary" translate="no">R$ 80,00</CardTitle>
+              <CardTitle className="text-3xl text-primary" translate="no">R$ 25,00</CardTitle>
               <CardDescription>por ALUNO</CardDescription>
             </CardHeader>
             <CardContent>
@@ -910,7 +910,7 @@ function App() {
                           <div className="flex items-center space-x-2">
                             <span className="text-lg font-bold">PIX</span>
                             <span className="text-sm" translate="no">
-                              R$ 80,00 (sem taxas)
+                              R$ 25,00 (sem taxas)
                             </span>
                           </div>
                         </div>
@@ -1065,6 +1065,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
