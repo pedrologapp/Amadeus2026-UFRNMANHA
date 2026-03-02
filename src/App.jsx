@@ -338,7 +338,7 @@ function App() {
           ticketQuantity: 1, 
           amount: valorTotal,
           timestamp: new Date().toISOString(),
-          event: 'Amadeus-museu-minerios-ifrn'
+          event: 'Amadeus-museu-minerios-ifrn-manha'
         })
       });
 
@@ -1062,6 +1062,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
