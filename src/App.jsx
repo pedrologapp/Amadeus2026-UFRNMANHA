@@ -43,6 +43,7 @@ import jardimImage from './assets/happy3.png';
 function App() {
   // ⚙️ CONFIGURAÇÃO
   const SERIES_DISPONIVEIS = ['6º Ano', '7º Ano'];
+  const TURMAS_PERMITIDAS = ['A']; // Apenas turma A (matutino)
 
   // ============================================
   // TAXAS DE ANTECIPAÇÃO
@@ -1064,6 +1065,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
