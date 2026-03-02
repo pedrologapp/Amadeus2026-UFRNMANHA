@@ -218,7 +218,7 @@ function App() {
   // Até 3x no cartão com juros
   // ============================================
   const calculatePrice = () => {
-    const PRECO_BASE = 80.0;
+    const PRECO_BASE = 25.0;
     let valorTotal = PRECO_BASE;
     
     if (formData.paymentMethod === 'credit') {
@@ -1065,6 +1065,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
