@@ -42,8 +42,7 @@ import jardimImage from './assets/happy3.jpg';
 
 function App() {
   // ⚙️ CONFIGURAÇÃO
-  const SERIES_DISPONIVEIS = ['Grupo IV','Grupo V', 'Maternal(3)', 'Maternalzinho(2)', '1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano'];
-  // const SERIES_DISPONIVEIS = ['Grupo IV','Grupo V', 'Maternal(3)', 'Maternalzinho(2)', '1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano','6º Ano', '7º Ano', '8º Ano' ,'9º Ano'];
+  const SERIES_DISPONIVEIS = ['6º Ano', '7º Ano'];
 
   // ============================================
   // TAXAS DE ANTECIPAÇÃO
@@ -88,7 +87,6 @@ function App() {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
 
-  // SEM FILTRO DE TURNO - Todos os alunos (matutino e vespertino)
   const [selectedSerie, setSelectedSerie] = useState('');
 
   // Função para validar CPF
@@ -130,7 +128,7 @@ function App() {
     }, 100);
   };
 
-  // Função para buscar alunos no Supabase - SEM FILTRO DE TURNO (todos participam)
+  // Função para buscar alunos no Supabase - 6º e 7º Ano apenas
   const searchStudents = async (searchTerm) => {
     if (searchTerm.length < 2) {
       setStudentsList([]);
@@ -140,15 +138,12 @@ function App() {
 
     setIsSearching(true);
     try {
-    let query = supabase
-      .from('alunos')
-      .select('*')
-      .ilike('nome_completo', `%${searchTerm}%`)
-      .in('serie', SERIES_DISPONIVEIS);  // ← usa a lista que você já tem
+      let query = supabase
+        .from('alunos')
+        .select('*')
+        .ilike('nome_completo', `%${searchTerm}%`)
+        .in('serie', SERIES_DISPONIVEIS);
 
-     // Troque o .not() por .in() com as séries permitidas:
-    query = query.in('serie', ['Grupo IV', 'Grupo V', 'Maternal(3)', 'Maternalzinho(2)', '1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano']);
-      
       // Aplicar filtro de série se selecionado
       if (selectedSerie) {
         query = query.eq('serie', selectedSerie);
@@ -231,18 +226,13 @@ function App() {
       const parcelas = parseInt(formData.installments) || 1;
       
       if (parcelas === 1) {
-        taxaPercentual = 0.0299;           // 2,99% à vista
+        taxaPercentual = 0.0299;
       } else if (parcelas >= 2 && parcelas <= 3) {
-        taxaPercentual = 0.0349;           // 3,49% de 2 a 3 parcelas
+        taxaPercentual = 0.0349;
       }
       
-      // Taxa do cartão
       const taxaCartao = valorTotal * taxaPercentual;
-      
-      // Taxa de antecipação
       const taxaAntecipacao = calcularTaxaAntecipacao(valorTotal, parcelas);
-      
-      // Valor total = base + taxa cartão + taxa fixa + taxa antecipação
       valorTotal = valorTotal + taxaCartao + taxaFixa + taxaAntecipacao;
     }
     
@@ -335,7 +325,7 @@ function App() {
           ticketQuantity: 1, 
           amount: valorTotal,
           timestamp: new Date().toISOString(),
-          event: 'Amadeus-sitiodopicapau'
+          event: 'Amadeus-museu-minerios-ifrn'
         })
       });
 
@@ -415,10 +405,10 @@ function App() {
       <section className="hero-section min-h-screen flex items-center justify-center text-white relative">
         <div className="text-center z-10 max-w-4xl mx-auto px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            O Sítio do Picapau Amarelo
+            Museu de Minérios do IFRN
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90">
-            Espetáculo Teatral no Teatro Alberto Maranhão
+            Passeio Pedagógico — 6º e 7º Anos
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -433,11 +423,11 @@ function App() {
           <div className="mt-12 flex justify-center items-center space-x-8 text-sm">
             <div className="flex items-center">
               <Calendar className="h-5 w-5 mr-2" />
-              <span translate="no">17 de Março de 2026 (Terça-feira)</span>
+              <span translate="no">16 de Março de 2026 (Segunda-feira)</span>
             </div>
             <div className="flex items-center">
               <MapPin className="h-5 w-5 mr-2" />
-              Teatro Alberto Maranhão
+              Museu de Minérios — IFRN
             </div>
           </div>
         </div>
@@ -446,14 +436,13 @@ function App() {
       <section id="sobre" className="section-padding bg-white">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 gradient-text">Sobre o Evento</h2>
+            <h2 className="text-4xl font-bold mb-4 gradient-text">Sobre o Passeio</h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            A Companhia Encantada de Teatro, em parceria com o projeto "A Escola Vai ao Teatro", 
-            apresentará o clássico musical "O Sítio do Picapau Amarelo" no Teatro Alberto Maranhão. 
-            O Sítio do Picapau Amarelo foi criado por Monteiro Lobato com base no folclore brasileiro, 
-            na cultura popular e na literatura infantil universal, reunindo personagens do imaginário 
-            nacional (como o Saci e a Cuca) e figuras de contos clássicos, integrados a um contexto 
-            rural brasileiro.
+              A Escola Centro Educacional Amadeus realizará um passeio pedagógico ao Museu de Minérios 
+              do IFRN, uma oportunidade valiosa para o enriquecimento do aprendizado prático dos nossos 
+              estudantes do 6º e 7º anos. O museu oferece um acervo rico em minerais e rochas, 
+              proporcionando aos alunos uma experiência educativa que complementa os conteúdos 
+              trabalhados em sala de aula.
             </p>
           </div>
 
@@ -463,11 +452,11 @@ function App() {
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-6 w-6 text-accent mt-1 flex-shrink-0" />
-                  <p>Espetáculo musical clássico da literatura brasileira</p>
+                  <p>Visita guiada ao Museu de Minérios do IFRN</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-6 w-6 text-accent mt-1 flex-shrink-0" />
-                  <p>Teatro Alberto Maranhão — um dos mais tradicionais da região</p>
+                  <p>Enriquecimento do aprendizado prático dos estudantes</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-6 w-6 text-accent mt-1 flex-shrink-0" />
@@ -475,7 +464,7 @@ function App() {
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-6 w-6 text-accent mt-1 flex-shrink-0" />
-                  <p>Pipoca inclusa para os alunos</p>
+                  <p>Destinado aos alunos do 6º e 7º anos (Turno Matutino)</p>
                 </div>
               </div>
             </div>
@@ -491,9 +480,9 @@ function App() {
       <section id="itinerario" className="section-padding bg-muted/30">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Informações do Evento</h2>
+            <h2 className="text-4xl font-bold mb-4">Informações do Passeio</h2>
             <p className="text-lg text-muted-foreground">
-              Confira todos os detalhes do passeio
+              Confira todos os detalhes do passeio pedagógico
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -503,17 +492,14 @@ function App() {
                   <Clock className="h-8 w-8 text-primary" />
                 </div>
                 <CardTitle>Data e Horário</CardTitle>
-                <CardDescription translate="no">17 de Março de 2026</CardDescription>
+                <CardDescription translate="no">16 de Março de 2026</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-center" translate="no">
-                  Saída da escola às 13h
+                  Concentração na escola às 07:00h
                 </p>
-               <p className="text-sm text-center" translate="no">
-                  Retorna à escola às 17h
-                </p>
-                <p className="text-sm text-center font-semibold text-red-600 mt-2">
-                  Neste dia NÃO HAVERÁ AULA
+                <p className="text-sm text-center" translate="no">
+                  Retorno previsto às 11:10h
                 </p>
               </CardContent>
             </Card>
@@ -526,10 +512,7 @@ function App() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-center">
-                  Teatro Alberto Maranhão
-                </p>
-                <p className="text-xs text-center text-muted-foreground mt-1">
-                  Classificação: Livre
+                  Museu de Minérios do IFRN
                 </p>
               </CardContent>
             </Card>
@@ -555,7 +538,7 @@ function App() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-center">
-                  Todos os turnos (matutino e vespertino)
+                  6º e 7º Anos — Turno Matutino
                 </p>
               </CardContent>
             </Card>
@@ -575,7 +558,7 @@ function App() {
                 <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
                 <div>
                   <p className="text-sm">
-                    Neste dia (<span translate="no">17/03</span>) <strong>NÃO HAVERÁ AULA</strong>. Todos os alunos (matutino e vespertino) deverão estar na escola às <span translate="no">13 horas</span>.
+                    O passeio é destinado aos alunos do <strong>6º e 7º anos (Turno Matutino)</strong>.
                   </p>
                 </div>
               </div>
@@ -583,7 +566,7 @@ function App() {
                 <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
                 <div>
                   <p className="text-sm">
-                    O aluno deverá vir com o <strong>FARDAMENTO COMPLETO</strong>, <strong>GARRAFINHA DE ÁGUA</strong> e <strong>LANCHE</strong>. 
+                    Concentração na escola às <strong><span translate="no">07:00h</span></strong>. Retorno previsto às <strong><span translate="no">11:10h</span></strong>.
                   </p>
                 </div>
               </div>
@@ -591,7 +574,15 @@ function App() {
                 <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
                 <div>
                   <p className="text-sm">
-                    A taxa inclui: <strong>entrada no teatro, transporte (ônibus) e pipoca</strong>.
+                    O aluno deverá vir com o <strong>FARDAMENTO COMPLETO</strong> e <strong>GARRAFINHA DE ÁGUA</strong>.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <p className="text-sm">
+                    A taxa inclui: <strong>entrada no museu e transporte (ônibus)</strong>.
                   </p>
                 </div>
               </div>    
@@ -599,7 +590,7 @@ function App() {
                 <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
                 <div>
                   <p className="text-sm text-red-700 font-semibold" translate="no">
-                    Pagamento obrigatório até 12/03/2026. Após essa data não será possível estender o prazo.
+                    Pagamento obrigatório até 11/03/2026. Após essa data não será possível estender o prazo.
                   </p>
                 </div>
               </div>  
@@ -613,7 +604,7 @@ function App() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Inscrição e Pagamento</h2>
             <p className="text-lg text-muted-foreground">
-              Taxa por aluno — inclui entrada, ônibus e pipoca
+              Taxa por aluno — inclui entrada no museu e ônibus
             </p>
           </div>
 
@@ -629,15 +620,11 @@ function App() {
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-center">
                       <CheckCircle className="h-4 w-4 text-accent mr-2" />
-                      Entrada no Teatro Alberto Maranhão
+                      Entrada no Museu de Minérios do IFRN
                     </li>
                     <li className="flex items-center">
                       <CheckCircle className="h-4 w-4 text-accent mr-2" />
                       Transporte de ônibus (ida e volta)
-                    </li>
-                    <li className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-accent mr-2" />
-                      Pipoca
                     </li>
                   </ul>
                 </div>
@@ -646,7 +633,7 @@ function App() {
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start">
                       <Shield className="h-4 w-4 text-destructive mr-2 mt-0.5" />
-                      <span translate="no">Pagamento obrigatório até 12 de março de 2026</span>
+                      <span translate="no">Pagamento obrigatório até 11 de março de 2026</span>
                     </li>
                     <li className="flex items-start">
                       <Shield className="h-4 w-4 text-destructive mr-2 mt-0.5" />
@@ -658,7 +645,7 @@ function App() {
                     </li>
                     <li className="flex items-start">
                       <Shield className="h-4 w-4 text-destructive mr-2 mt-0.5" />
-                      Após o pagamento, não será  permitido o reembolso. 
+                      Após o pagamento, não será permitido o reembolso.
                     </li>
                   </ul>
                 </div>
@@ -1068,7 +1055,7 @@ function App() {
             © 2026 Escola Centro Educacional Amadeus. Todos os direitos reservados.
           </p>
           <p className="text-xs mt-2 opacity-80" translate="no">
-            O Sítio do Picapau Amarelo - Teatro Alberto Maranhão - 17 de Março de 2026
+            Passeio Pedagógico — Museu de Minérios do IFRN — 16 de Março de 2026
           </p>
         </div>
       </footer>
@@ -1077,18 +1064,6 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
