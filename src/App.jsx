@@ -953,9 +953,8 @@ function App() {
                           onChange={(e) => setFormData(prev => ({ ...prev, installments: parseInt(e.target.value) }))}
                           className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm mt-2"
                         >
-                          <option value={1}>1x de R$ {valorTotal.toFixed(2).replace('.', ',')}</option>
-                          <option value={2}>2x de R$ {(valorTotal / 2).toFixed(2).replace('.', ',')}</option>
-                          <option value={3}>3x de R$ {(valorTotal / 3).toFixed(2).replace('.', ',')}</option>
+                          <option value={1}>1x de R$ {30}</option>
+                       
                         </select>
                         <p className="text-xs text-gray-500 mt-1">
                           * Taxas de cartão aplicadas ao valor total
@@ -1065,6 +1064,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
