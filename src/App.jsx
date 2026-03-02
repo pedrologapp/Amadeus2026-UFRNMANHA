@@ -36,9 +36,9 @@ import {
 } from 'lucide-react';
 
 // Importando as imagens
-import interiorImage1 from './assets/happy1.png';
-import interiorImage2 from './assets/happy2.png';
-import jardimImage from './assets/happy3.png';
+import interiorImage1 from './assets/happy1.jpg';
+import interiorImage2 from './assets/happy2.jpg';
+import jardimImage from './assets/happy3.jpg';
 
 function App() {
   // ⚙️ CONFIGURAÇÃO
@@ -129,7 +129,7 @@ function App() {
     }, 100);
   };
 
-  // Função para buscar alunos no Supabase - 6º e 7º Ano apenas
+  // Função para buscar alunos no Supabase - 6º e 7º Ano, apenas turma A (matutino)
   const searchStudents = async (searchTerm) => {
     if (searchTerm.length < 2) {
       setStudentsList([]);
@@ -143,7 +143,8 @@ function App() {
         .from('alunos')
         .select('*')
         .ilike('nome_completo', `%${searchTerm}%`)
-        .in('serie', SERIES_DISPONIVEIS);
+        .in('serie', SERIES_DISPONIVEIS)
+        .in('turma', TURMAS_PERMITIDAS); // Filtra apenas turma A (matutino)
 
       // Aplicar filtro de série se selecionado
       if (selectedSerie) {
@@ -214,31 +215,42 @@ function App() {
   };
 
   // ============================================
-  // CÁLCULO DE PREÇO - R$ 25,00 POR ALUNO
-  // Até 3x no cartão com juros
+  // CÁLCULO DE PREÇO
+  // PIX: R$ 25,00 | Cartão: R$ 30,00 (1x)
   // ============================================
+  // ⚠️ VALORES FIXOS PARA ESTE PASSEIO (Museu de Minérios)
+  // Para outros eventos, usar a lógica de taxas abaixo:
+  // ============================================
+  // const calculatePriceComTaxas = () => {
+  //   const PRECO_BASE = 80.0;
+  //   let valorTotal = PRECO_BASE;
+  //   
+  //   if (formData.paymentMethod === 'credit') {
+  //     let taxaPercentual = 0;
+  //     const taxaFixa = 0.49;
+  //     const parcelas = parseInt(formData.installments) || 1;
+  //     
+  //     if (parcelas === 1) {
+  //       taxaPercentual = 0.0299;           // 2,99% à vista
+  //     } else if (parcelas >= 2 && parcelas <= 3) {
+  //       taxaPercentual = 0.0349;           // 3,49% de 2 a 3 parcelas
+  //     }
+  //     
+  //     const taxaCartao = valorTotal * taxaPercentual;
+  //     const taxaAntecipacao = calcularTaxaAntecipacao(valorTotal, parcelas);
+  //     valorTotal = valorTotal + taxaCartao + taxaFixa + taxaAntecipacao;
+  //   }
+  //   
+  //   const valorParcela = valorTotal / (parseInt(formData.installments) || 1);
+  //   return { valorTotal, valorParcela };
+  // };
+  // ============================================
+
   const calculatePrice = () => {
-    const PRECO_BASE = 25.0;
-    let valorTotal = PRECO_BASE;
-    
     if (formData.paymentMethod === 'credit') {
-      let taxaPercentual = 0;
-      const taxaFixa = 0.49;
-      const parcelas = parseInt(formData.installments) || 1;
-      
-      if (parcelas === 1) {
-        taxaPercentual = 0.0299;
-      } else if (parcelas >= 2 && parcelas <= 3) {
-        taxaPercentual = 0.0349;
-      }
-      
-      const taxaCartao = valorTotal * taxaPercentual;
-      const taxaAntecipacao = calcularTaxaAntecipacao(valorTotal, parcelas);
-      valorTotal = valorTotal + taxaCartao + taxaFixa + taxaAntecipacao;
+      return { valorTotal: 30.0, valorParcela: 30.0 };
     }
-    
-    const valorParcela = valorTotal / (parseInt(formData.installments) || 1);
-    return { valorTotal, valorParcela };
+    return { valorTotal: 25.0, valorParcela: 25.0 };
   };
 
   const { valorTotal, valorParcela } = calculatePrice();
@@ -326,7 +338,7 @@ function App() {
           ticketQuantity: 1, 
           amount: valorTotal,
           timestamp: new Date().toISOString(),
-          event: 'Amadeus-museu-minerios-ifrn-manha'
+          event: 'Amadeus-museu-minerios-ifrn'
         })
       });
 
@@ -409,7 +421,7 @@ function App() {
             Museu de Minérios do IFRN
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90">
-            Passeio Pedagógico — Para o 6º e 7º Ano Matutino
+            Passeio Pedagógico — 6º e 7º Anos
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -605,7 +617,7 @@ function App() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Inscrição e Pagamento</h2>
             <p className="text-lg text-muted-foreground">
-              Taxa por aluno — inclui entrada no museu e ônibus
+              R$ 25,00 no PIX ou R$ 30,00 no cartão — inclui entrada no museu e ônibus
             </p>
           </div>
 
@@ -642,7 +654,7 @@ function App() {
                     </li>
                     <li className="flex items-start">
                       <Shield className="h-4 w-4 text-destructive mr-2 mt-0.5" />
-                      Parcelamento em até 3x no cartão (com juros)
+                      Cartão de crédito: 1x de R$ 30,00 (taxas inclusas)
                     </li>
                     <li className="flex items-start">
                       <Shield className="h-4 w-4 text-destructive mr-2 mt-0.5" />
@@ -922,7 +934,7 @@ function App() {
                             ? 'border-orange-400 bg-orange-50' 
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
-                        onClick={() => setFormData(prev => ({ ...prev, paymentMethod: 'credit' }))}
+                        onClick={() => setFormData(prev => ({ ...prev, paymentMethod: 'credit', installments: 1 }))}
                       >
                         <div className="flex items-center">
                           <div className={`w-4 h-4 rounded-full border-2 mr-3 ${
@@ -937,8 +949,8 @@ function App() {
                               <span className="text-sm">💳</span>
                               <span className="text-sm font-medium">Cartão de Crédito</span>
                             </div>
-                            <div className="text-xs text-green-600 ml-6 font-medium">
-                              Parcele em até 3x (com juros)
+                            <div className="text-xs text-orange-600 ml-6 font-medium">
+                              1x de R$ 30,00 (taxas inclusas)
                             </div>
                           </div>
                         </div>
@@ -947,17 +959,8 @@ function App() {
 
                     {formData.paymentMethod === 'credit' && (
                       <div className="mb-6">
-                        <Label className="text-sm font-medium">Número de Parcelas</Label>
-                        <select
-                          value={formData.installments}
-                          onChange={(e) => setFormData(prev => ({ ...prev, installments: parseInt(e.target.value) }))}
-                          className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm mt-2"
-                        >
-                          <option value={1}>1x de R$ {30}</option>
-                       
-                        </select>
-                        <p className="text-xs text-gray-500 mt-1">
-                          * Taxas de cartão aplicadas ao valor total
+                        <p className="text-sm text-gray-600">
+                          Pagamento único de <strong translate="no">R$ 30,00</strong> no cartão de crédito (taxas inclusas).
                         </p>
                       </div>
                     )}
@@ -967,19 +970,14 @@ function App() {
                       <div className="text-center" translate="no">
                         <h4 className="text-lg font-bold text-orange-800 mb-1">Valor Total</h4>
                         <div className="text-sm text-gray-600 mb-1">
-                          1 aluno × R$ 25,00
+                          1 aluno × {formData.paymentMethod === 'credit' ? 'R$ 30,00' : 'R$ 25,00'}
                         </div>
                         <div className="text-2xl font-bold text-orange-900">
-                          R$ {30}
+                          R$ {valorTotal.toFixed(2).replace('.', ',')}
                         </div>
-                        {formData.paymentMethod === 'credit' && formData.installments > 1 && (
-                          <div className="text-sm text-orange-700 mt-1">
-                            {formData.installments}x de R$ {30}
-                          </div>
-                        )}
                         {formData.paymentMethod === 'credit' && (
                           <div className="text-xs text-orange-600 mt-1">
-                            (inclui taxas do cartão)
+                            (taxas do cartão inclusas)
                           </div>
                         )}
                       </div>
@@ -1064,8 +1062,6 @@ function App() {
 }
 
 export default App;
-
-
 
 
 
