@@ -418,7 +418,7 @@ function App() {
       <section className="hero-section min-h-screen flex items-center justify-center text-white relative">
         <div className="text-center z-10 max-w-4xl mx-auto px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            Museu de Minérios do IFRN
+            Museu de Minérios do IFRN Central
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90">
             Passeio Pedagógico — 6º e 7º Anos Matutino
@@ -440,7 +440,7 @@ function App() {
             </div>
             <div className="flex items-center">
               <MapPin className="h-5 w-5 mr-2" />
-              Museu de Minérios — IFRN
+              Museu de Minérios — IFRN Central
             </div>
           </div>
         </div>
@@ -1062,6 +1062,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
